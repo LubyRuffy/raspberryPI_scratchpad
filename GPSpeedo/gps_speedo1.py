@@ -183,7 +183,7 @@ class GPSreader():
     while True:
       gps_line = self.gps.readlines()
       if "*GPRMC" in gps_line:
-          yield self.coords(gps_line)  
+        return self.coords(gps_line)  
 
       
     
