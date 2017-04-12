@@ -203,7 +203,7 @@ speedometer = GPSreader()
 #  print(coords)
  
  
-for l in speedometer.gps.readline():
+for l in speedometer.gps.readlines():
   print(l)
 
 
