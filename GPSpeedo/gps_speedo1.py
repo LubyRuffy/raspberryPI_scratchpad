@@ -181,15 +181,13 @@ class GPSreader():
   def get_coords(self):
     
       for gps_line in self.gps.readlines():
-        print(gps_line)
         if "*GPRMC" in gps_line:
           yield self.coords(gps_line)  
 
       
     
   
-    
-    
+
 speedometer = GPSreader()
 
   
