@@ -155,9 +155,9 @@ class GPSreader():
     
   def _speed2speed(self, speed):
     try:
-      self.speed = float(speed) * self.__KNOT 
+      self._speed = float(speed) * self.__KNOT 
     except Exception as e:
-      self.speed = -1
+      self._speed = -1
       raise ValueError("Unable to get speed value due to exception: {0}".format(str(e)))
       
     return self.speed
