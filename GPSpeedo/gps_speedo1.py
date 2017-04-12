@@ -182,7 +182,7 @@ class GPSreader():
     
     def get_data():
       gps_line = self.gps.readline()
-      if "*GPRMC" in gps_line:
+      if "GPRMC" in gps_line:
         return gps_line 
     
     while True:  
