@@ -89,7 +89,7 @@ class GPSreader():
   
   @property
   def speed(self):
-    return self._speed
+    return round(self._speed, 3)
     
   
   @property  
