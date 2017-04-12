@@ -199,9 +199,12 @@ speedometer = GPSreader()
 #print(speedometer.break_gps_str("$GPRMC,205920.30,A,5320.20886,N,00618.25299,W,0.072,,120417,,,A*60"))
 #print(speedometer.coords("$GPRMC,205920.30,A,5320.20886,N,00618.25299,W,0.072,,120417,,,A*60"))
 
-for coords in speedometer.get_coords():
-  print(coords)
-  
+#for coords in speedometer.get_coords():
+#  print(coords)
+ 
+ 
+for l in speedometer.gps.readline():
+  print(l)
 
 
 
