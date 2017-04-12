@@ -100,7 +100,7 @@ class GPSpeedo():
 speedometer = GPSpeedo()
 
 	
-rfcomm		= Serial('/dev/rfcomm0')
+rfcomm		= Serial('/dev/serial0')
 rfcomm.flush()	
 #f = open('speed.test', 'w')
 while True:
