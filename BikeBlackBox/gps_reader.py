@@ -120,7 +120,9 @@ class GPSreader():
       self._longitude = self._gps2coords(self._gps_raw['LOG'], self._gps_raw['LOG_EW'])
       self._speed     = self._gps2speed(self._gps_raw['SPEED'])
       self._timestamp = self._gps2time(self._gps_raw['HOUR'], self._gps_raw['DATE'])
-      coords_dict = {'LAT':self.latitude, 'LOG':self.longitude, 'SPEED':self.speed, 'TIME':self.timestamp}
+      
+      coords_dict     = { 'LAT':self.latitude, 'LOG':self.longitude,
+                          'SPEED':self.speed, 'TIME':self.timestamp}
       
     return coords_dict
     
@@ -133,12 +135,13 @@ class GPSreader():
         yield self.coords(gps_line)
       
     
+
+
+
+if __name__ == '__main__':
   
-
-gps_reader = GPSreader()
-
-
-for coords in gps_reader.get_coords:
-  print(coords)
+  gps_reader = GPSreader('/dev/serial0')
+  for coords in gps_reader.get_coords:
+    print(coords)
  
  
