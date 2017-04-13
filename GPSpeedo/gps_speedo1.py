@@ -2,7 +2,7 @@
 
 from __future__   import division
 from serial       import Serial
-import datetime, sys
+import datetime
 
 
 # Notes:
@@ -13,24 +13,26 @@ import datetime, sys
 
 class GPSreader():
   
-  FMT = "%d.%m.%Y - %H:%M:%S.%f"
   __KNOT = 1.852
-  
-  
+    
   _GPRMC_pattern  = { 'HOUR':1, 'STATUS':2, 'LAT':3, 'LAT_NS':4, 'LOG':5, 'LOG_EW':6, 'SPEED':7,
                       'COURSE':8, 'DATE':9,  'VAR':10, 'VAR_E_W':11, 'CHKS':12, 'LENGTH':13}
   
       
-  def __init__(self, port = '/dev/serial0'):
-    self.gps          = Serial(port)
+  def __init__(self, port = None):
+    
+    if port:
+      self.gps        = Serial(port)
+      self.get_coords = self._get_coords_gen()
+    else:
+      self.get_coords = None
+        
     self._speed       = 0
     self._latitude    = 0
     self._longitude   = 0
     self._timestamp   = ""
     self._gps_raw     = {}
     
-    self.gps.flush()
-
   
   @property
   def speed(self):
@@ -45,6 +47,7 @@ class GPSreader():
   @property
   def longitude(self):
     return round(self._longitude, 7)
+
     
   @property
   def timestamp(self):
@@ -53,8 +56,8 @@ class GPSreader():
   
   def _split_gps_str(self, gps_str):
     
-    gps_split = gps_str.split(',')
     self._gps_raw = {}
+    gps_split = gps_str.split(',')
     
     if len(gps_split) == self._GPRMC_pattern['LENGTH']:
       self._gps_raw = {key:(gps_split[self._GPRMC_pattern[key]] if key != 'LENGTH' else 0) for key in self._GPRMC_pattern}
@@ -63,8 +66,7 @@ class GPSreader():
     return self._gps_raw
       
 
-    
-  def _gps2dec(self, coord_text, nswe):
+  def _gps2coords(self, coord_text, nswe):
     
     try:
       major, minor  = coord_text.split('.')  
@@ -76,54 +78,55 @@ class GPSreader():
       else:
         return coordinate
     except:
-      return None
+      return -1
           
 
-
   def _gps2time(self, hour_time, day_time):
+
+    try:
+      major, minor  = hour_time.split('.')
+      hours         = int(major) // 10000
+      minutes       = (int(major) % 10000) // 100
+      sec           = int(major) % 100
+      ssec          = int(minor)
+      
+      day           = int(day_time) // 10000
+      month         = (int(day_time) % 10000) // 100 
+      year          = (int(day_time) % 100) + 2000
     
-    major, minor  = hour_time.split('.')
-    hours         = int(major) // 10000
-    minutes       = (int(major) % 10000) // 100
-    sec           = int(major) % 100
-    ssec          = int(minor)
-    
-    day           = int(day_time) // 10000
-    month         = (int(day_time) % 10000) // 100 
-    year          = (int(day_time) % 100) + 2000
-    
-    time_str      = "{0}.{1}.{2} - {3}:{4}:{5}.{6}".format(day, month, year, hours, minutes, sec, ssec) 
-    time_obj      = datetime.datetime.strptime(time_str, self.FMT)
-        
-    return time_obj
+      time_obj      = datetime.datetime(year, month, day, hours, minutes, sec, ssec) 
+      
+      return str(time_obj)
+    except:
+      return -1
     
     
-  def _speed2speed(self, speed):
+  def _gps2speed(self, speed):
+    
     try:
       self._speed = float(speed) * self.__KNOT 
-    except Exception as e:
-      self._speed = -1
-      raise ValueError("Unable to get speed value due to exception: {0}".format(str(e)))
+      return self._speed
+    except:
+      return -1
       
-    return self.speed
-      
-    
+          
   def coords(self, gps_str):
     
     coords_dict = {'LAT':0, 'LOG':0, 'SPEED':0, 'TIME':""}
     
     self._split_gps_str(gps_str)
     if self._gps_raw['STATUS'] == 'A':
-      self._latitude  = self._gps2dec(self._gps_raw['LAT'], self._gps_raw['LAT_NS'])
-      self._longitude = self._gps2dec(self._gps_raw['LOG'], self._gps_raw['LOG_EW'])
-      self._speed     = self._speed2speed(self._gps_raw['SPEED'])
+      self._latitude  = self._gps2coords(self._gps_raw['LAT'], self._gps_raw['LAT_NS'])
+      self._longitude = self._gps2coords(self._gps_raw['LOG'], self._gps_raw['LOG_EW'])
+      self._speed     = self._gps2speed(self._gps_raw['SPEED'])
       self._timestamp = self._gps2time(self._gps_raw['HOUR'], self._gps_raw['DATE'])
       coords_dict = {'LAT':self.latitude, 'LOG':self.longitude, 'SPEED':self.speed, 'TIME':self.timestamp}
       
     return coords_dict
     
   
-  def get_coords(self):
+  def _get_coords_gen(self):
+    self.gps.flush()
     while True:
       gps_line = self.gps.readline()
       if "GPRMC" in gps_line:  
@@ -134,7 +137,8 @@ class GPSreader():
 
 gps_reader = GPSreader()
 
-for coords in gps_reader.get_coords():
+
+for coords in gps_reader.get_coords:
   print(coords)
  
  
