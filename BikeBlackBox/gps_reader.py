@@ -56,7 +56,7 @@ class GPSreader():
   
   def _split_gps_str(self, gps_str):
     
-    self._gps_raw = {}
+    self._gps_raw = {key:"" for key in self._GPRMC_pattern}
     gps_split = gps_str.split(',')
     
     if len(gps_split) == self._GPRMC_pattern['LENGTH']:
