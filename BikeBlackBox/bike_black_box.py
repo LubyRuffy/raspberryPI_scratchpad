@@ -44,6 +44,6 @@ if __name__ == '__main__':
       log_full_path = os.path.join(log_path, log_file) 
       file_handler  = logging.FileHandler(log_full_path)
       file_handler.setFormatter(gps_log_format)
-      logger.addHandler(file_handler)
+      #logger.addHandler(file_handler)
       
       start_time = datetime.datetime.now()  
