@@ -4,10 +4,15 @@
 #from mpu_6050   import MPU6050
 from gps_reader import GPSreader
 
-import logging, datetime, os
+import logging, datetime, os, zipfile
 
 
 LOG_FILE_CADENCE = 5
+
+
+def zip_and_send(filename):
+  pass
+  
 
 if __name__ == '__main__':
   
@@ -40,9 +45,11 @@ if __name__ == '__main__':
     curr_time = datetime.datetime.now()
     if (curr_time.second == 0 or curr_time.second < start_time.second)\
         and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
+          
+      old_log_full_path = log_full_path
+      log_file          = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
+      log_full_path     = os.path.join(log_path, log_file) 
       
-      log_file      = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
-      log_full_path = os.path.join(log_path, log_file) 
       logger.removeHandler(file_handler)      
       file_handler  = logging.FileHandler(log_full_path)
       file_handler.setFormatter(gps_log_format)
