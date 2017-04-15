@@ -29,17 +29,21 @@ if __name__ == '__main__':
   logger.addHandler(file_handler)
   logger.addHandler(console_handler)
   
-  message_format = "LAT:{LAT}; LON:{LON}; SPEED:{SPEED}; GPS_TIME:{TIME}"  
+  gps_message_format = "LAT:{LAT}; LON:{LON}; SPEED:{SPEED}; GPS_TIME:{TIME}"
+  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GX}; GYRO_Z:{GZ}; ACCEL_X:{AX}; ACCEL_Y:{AY}; ACCEL_Z:{AZ}; TEMP:{TEMP}"
   gps = GPSreader('/dev/serial0')
   
   start_time = datetime.datetime.now()
   for coords in gps.coords:
-    logger.info(message_format.format(**coords)) 
+    gps_message = gps_message_format.format(**coords)
+    logger.info(gps_message) 
     
     curr_time = datetime.datetime.now()
     if curr_time.second == 0 and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
       log_file      = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
       log_full_path = os.path.join(log_path, log_file) 
       file_handler  = logging.FileHandler(log_full_path)
+      file_handler.setFormatter(gps_log_format)
       logger.addHandler(file_handler)
+      
       start_time = datetime.datetime.now()  
