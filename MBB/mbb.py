@@ -8,11 +8,11 @@ from threading  import Thread
 import logging, datetime, os, zipfile
 
 
-LOG_FILE_CADENCE = 3
+LOG_FILE_CADENCE = 2
 
 
 def zip_and_send(filename):
-  
+  print(filename) 
   zf = pizfile.ZipFile(filename + ".zip", mode = 'w') 
   zf.write(filename)
   zf.close()
@@ -64,7 +64,7 @@ if __name__ == '__main__':
       start_time = datetime.datetime.now()
       ### End of log rotation section 
     
-      Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
+      Thread(target = zip_and_send, args = (old_log_full_path)).start() 
     
     
     gps_message = gps_message_format.format(**coords)
