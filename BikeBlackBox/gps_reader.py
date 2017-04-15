@@ -22,8 +22,8 @@ class GPSreader():
   def __init__(self, port = None):
     
     if port:
-      self.gps        = Serial(port)
-      self.get_coords = self._get_coords_gen()
+      self.gps    = Serial(port)
+      self.coords = self._coords_gen()
     else:
       self.get_coords = None
         
@@ -110,7 +110,7 @@ class GPSreader():
       return -1
       
           
-  def coords(self, gps_str):
+  def get_coords(self, gps_str):
     
     coords_dict = {'LAT':0, 'LOG':0, 'SPEED':0, 'TIME':""}
     
@@ -127,7 +127,7 @@ class GPSreader():
     return coords_dict
     
   
-  def _get_coords_gen(self):
+  def _coords_gen(self):
     self.gps.flush()
     while True:
       gps_line = self.gps.readline()
@@ -141,7 +141,7 @@ class GPSreader():
 if __name__ == '__main__':
   
   gps_reader = GPSreader('/dev/serial0')
-  for coords in gps_reader.get_coords:
+  for coords in gps_reader.coords:
     print(coords)
  
  
