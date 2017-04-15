@@ -7,7 +7,7 @@ from gps_reader import GPSreader
 import logging, datetime, os
 
 
-LOG_FILE_CADENCE = 2
+LOG_FILE_CADENCE = 5
 
 if __name__ == '__main__':
   
