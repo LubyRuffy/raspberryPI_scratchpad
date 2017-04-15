@@ -44,8 +44,9 @@ if __name__ == '__main__':
       
       log_file      = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
       log_full_path = os.path.join(log_path, log_file) 
+      logger.removeHandler(file_handler)      
       file_handler  = logging.FileHandler(log_full_path)
       file_handler.setFormatter(gps_log_format)
-      #logger.addHandler(file_handler)
+      logger.addHandler(file_handler)
       
       start_time = datetime.datetime.now()  
