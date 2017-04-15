@@ -15,7 +15,7 @@ class GPSreader():
   
   __KNOT = 1.852
     
-  _GPRMC_pattern  = { 'HOUR':1, 'STATUS':2, 'LAT':3, 'LAT_NS':4, 'LOG':5, 'LOG_EW':6, 'SPEED':7,
+  _GPRMC_pattern  = { 'HOUR':1, 'STATUS':2, 'LAT':3, 'LAT_NS':4, 'LON':5, 'LON_EW':6, 'SPEED':7,
                       'COURSE':8, 'DATE':9,  'VAR':10, 'VAR_E_W':11, 'CHKS':12, 'LENGTH':13}
   
       
@@ -112,16 +112,16 @@ class GPSreader():
           
   def get_coords(self, gps_str):
     
-    coords_dict = {'LAT':0, 'LOG':0, 'SPEED':0, 'TIME':""}
+    coords_dict = {'LAT':0, 'LON':0, 'SPEED':0, 'TIME':""}
     
     self._split_gps_str(gps_str)
     if self._gps_raw['STATUS'] == 'A':
       self._latitude  = self._gps2coords(self._gps_raw['LAT'], self._gps_raw['LAT_NS'])
-      self._longitude = self._gps2coords(self._gps_raw['LOG'], self._gps_raw['LOG_EW'])
+      self._longitude = self._gps2coords(self._gps_raw['LON'], self._gps_raw['LON_EW'])
       self._speed     = self._gps2speed(self._gps_raw['SPEED'])
       self._timestamp = self._gps2time(self._gps_raw['HOUR'], self._gps_raw['DATE'])
       
-      coords_dict     = { 'LAT':self.latitude, 'LOG':self.longitude,
+      coords_dict     = { 'LAT':self.latitude, 'LON':self.longitude,
                           'SPEED':self.speed, 'TIME':self.timestamp}
       
     return coords_dict
