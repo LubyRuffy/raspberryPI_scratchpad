@@ -12,7 +12,7 @@ if __name__ == '__main__':
   logger = logging.getLogger('GPS_main_logger')
   logger.setLevel(logging.INFO)
   
-  log_filename  = "log/BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
+  log_filename  = "~/bbb_logs/BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
   file_handler  = logging.FileHandler(log_filename)
   
   gps_log_format = logging.Formatter('%(asctime)s - %(message)s', '%Y.%m.%d-%H:%M:%S')
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     logger.info(message_format.format(**coords)) 
     msg_counter += 1
     if msg_counter == 100:
-      log_filename  = "log/BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
+      log_filename  = "~/bbb_logs/BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
       file_handler  = logging.FileHandler(log_filename)
       logger.addHandler(file_handler)
 
