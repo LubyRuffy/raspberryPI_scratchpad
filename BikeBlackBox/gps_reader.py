@@ -72,7 +72,7 @@ class GPSreader():
       major, minor  = coord_text.split('.')  
       degrees       = int(major) // 100
       minutes       = (int(major) % 100 + float('0.' + minor)) / 60
-      coordinate    = degrees + minutes
+      coordinate    = round(degrees + minutes, 7)
       if nswe.upper() == 'W':
         return  coordinate * -1
       else:
