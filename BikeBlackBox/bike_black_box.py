@@ -12,7 +12,7 @@ if __name__ == '__main__':
   logger = logging.getLogger('GPS_main_logger')
   logger.setLevel(logging.INFO)
   
-  log_filename  = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d"))
+  log_filename  = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
   file_handler       = logging.FileHandler(log_filename)
   
   gps_log_format = logging.Formatter('%(asctime)s - %(message)s', '%Y.%m.%d-%H:%M:%S')
