@@ -34,10 +34,9 @@ if __name__ == '__main__':
   gps = GPSreader('/dev/serial0')
   
   start_time = datetime.datetime.now()
-  for coords in gps.coords:
-    gps_message = gps_message_format.format(**coords)
-    logger.info(gps_message) 
-    
+  for coords in gps.coords:  
+      
+    ### Logs rotation section
     curr_time = datetime.datetime.now()
     if (curr_time.second == 0 or curr_time.second < start_time.second)\
         and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
@@ -50,3 +49,7 @@ if __name__ == '__main__':
       logger.addHandler(file_handler)
       
       start_time = datetime.datetime.now()  
+    ### End of log rotation section 
+    
+    gps_message = gps_message_format.format(**coords)
+    logger.info(gps_message) 
