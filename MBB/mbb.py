@@ -64,7 +64,7 @@ if __name__ == '__main__':
       start_time = datetime.datetime.now()
       ### End of log rotation section 
     
-      Thread(target = zip_and_send, args = (old_log_full_path,))  
+      Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
     
     
     gps_message = gps_message_format.format(**coords)
