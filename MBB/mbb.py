@@ -3,15 +3,21 @@
 
 #from mpu_6050   import MPU6050
 from gps_reader import GPSreader
+from threading  import Thread
 
 import logging, datetime, os, zipfile
 
 
-LOG_FILE_CADENCE = 5
+LOG_FILE_CADENCE = 3
 
 
 def zip_and_send(filename):
-  pass
+  
+  zf = pizfile.ZipFile(filename + ".zip", mode = 'w') 
+  zf.write(filename)
+  zf.close()
+  return 0
+  
   
 
 if __name__ == '__main__':
@@ -41,11 +47,11 @@ if __name__ == '__main__':
   start_time = datetime.datetime.now()
   for coords in gps.coords:  
       
-    ### Logs rotation section
     curr_time = datetime.datetime.now()
     if (curr_time.second == 0 or curr_time.second < start_time.second)\
         and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
-          
+      
+      ### Logs rotation section    
       old_log_full_path = log_full_path
       log_file          = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
       log_full_path     = os.path.join(log_path, log_file) 
@@ -55,8 +61,11 @@ if __name__ == '__main__':
       file_handler.setFormatter(gps_log_format)
       logger.addHandler(file_handler)
       
-      start_time = datetime.datetime.now()  
-    ### End of log rotation section 
+      start_time = datetime.datetime.now()
+      ### End of log rotation section 
+    
+      Thread(target = zip_and_send, args = (old_log_full_path,))  
+    
     
     gps_message = gps_message_format.format(**coords)
     logger.info(gps_message) 
