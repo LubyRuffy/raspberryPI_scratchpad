@@ -13,7 +13,7 @@ LOG_FILE_CADENCE = 2
 
 def zip_and_send(filename):
   print(filename) 
-  zf = pizfile.ZipFile(filename + ".zip", mode = 'w') 
+  zf = zipfile.ZipFile(filename + ".zip", mode = 'w') 
   zf.write(filename)
   zf.close()
   return 0
