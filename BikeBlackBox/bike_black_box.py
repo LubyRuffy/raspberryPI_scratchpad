@@ -39,7 +39,9 @@ if __name__ == '__main__':
     logger.info(gps_message) 
     
     curr_time = datetime.datetime.now()
-    if curr_time.second == 0 and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
+    if (curr_time.second == 0 or curr_time.second < start_time.second)
+        and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
+      
       log_file      = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
       log_full_path = os.path.join(log_path, log_file) 
       file_handler  = logging.FileHandler(log_full_path)
