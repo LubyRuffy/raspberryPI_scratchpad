@@ -30,7 +30,7 @@ if __name__ == '__main__':
   message_format = "LAT:{LAT}; LON:{LON}; SPEED:{SPEED}; GPS_TIME:{TIME}"
   
   gps = GPSreader('/dev/serial0')
-  for coord in gps.coords:
+  for coords in gps.coords:
     logger.info(message_format.format(**coords)) 
   
   
