@@ -505,7 +505,7 @@ class MPU6050 :
 		fgy = float(gy * self.__CALIBRATION_ITERATIONS - self.gy_offset) * 1000.0 / float(65536 * self.__CALIBRATION_ITERATIONS)
 		fgz = float(gz * self.__CALIBRATION_ITERATIONS - self.gz_offset) * 1000.0 / float(65536 * self.__CALIBRATION_ITERATIONS)
 		#return fax, fay, faz, fgx, fgy, fgz
-		return {'GZ':fax, 'GY':fay, 'GX':faz, 'AZ':fgx, 'AY':fgy, 'AX':fgz}
+		return {'GX':fax, 'GY':fay, 'GZ':faz, 'AX':fgx, 'AY':fgy, 'AZ':fgz}
       
 	def updateOffsets(self, file_name):
 		ax_offset = 0
