@@ -25,7 +25,8 @@ if __name__ == '__main__':
   logger = logging.getLogger('GPS_main_logger')
   logger.setLevel(logging.INFO)
   
-  log_path      = "{0}/bbb_logs".format(os.path.expanduser('~'))
+  #log_path      = "{0}/bbb_logs".format(os.path.expanduser('~'))
+  log_path      = "."
   log_file      = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
   log_full_path = os.path.join(log_path, log_file) 
     
