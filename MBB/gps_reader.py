@@ -159,7 +159,6 @@ class GPSreader():
     self._split_gps_str(gps_str)
     if self._gps_raw['STATUS'] == 'A':
       
-      #self._time_now    = time.time()
       self._latitude    = self._gps2coords(self._gps_raw['LAT'], self._gps_raw['LAT_NS'])
       self._longitude   = self._gps2coords(self._gps_raw['LON'], self._gps_raw['LON_EW'])
       self._speed_gps   = self._gps2speed(self._gps_raw['SPEED'])
@@ -167,7 +166,6 @@ class GPSreader():
       self._speed_calc  = self._calc_speed()
       
       self._latitude_prev, self._longitude_prev = self._latitude, self._longitude
-      #self._time_prev = self._time_now
       
       coords_dict     = { 'LAT':self.latitude,        'LON':self.longitude,
                           'SPEED_GPS':self.speed_gps, 'SPEED_CALC':self.speed_calc,
@@ -182,6 +180,7 @@ class GPSreader():
       gps_line = self.gps.readline()
       if "GPRMC" in gps_line:  
         yield self.get_coords(gps_line)
+        print(self._time_prev, self._time_now)
         self._time_prev = self._time_now
     
 
