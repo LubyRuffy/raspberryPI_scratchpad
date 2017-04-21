@@ -69,4 +69,4 @@ if __name__ == '__main__':
     mpu = MPU6050()
     gps_message = gps_message_format.format(**coords)
     logger.info(gps_message)
-    logger.info(mpu.readSensors()) 
+    print(mpu.readSensors()) 
