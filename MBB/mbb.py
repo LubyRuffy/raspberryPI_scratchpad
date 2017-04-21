@@ -5,7 +5,7 @@
 from gps_reader import GPSreader
 from threading  import Thread
 
-import logging, datetime, os, zipfile
+import logging, datetime, os, zipfile, time
 
 
 LOG_FILE_CADENCE = 2
