@@ -152,7 +152,7 @@ class GPSreader():
           
   def get_coords(self, gps_str):
     
-    coords_dict = {'LAT':0, 'LON':0, 'GPS_SPEED':0, 'CALC_SPEED':0, 'TIME':""}
+    coords_dict = {'LAT':0, 'LON':0, 'SPEED_GPS':0, 'SPEED_CALC':0, 'TIME':""}
     
     self._split_gps_str(gps_str)
     if self._gps_raw['STATUS'] == 'A':
@@ -167,8 +167,9 @@ class GPSreader():
       self._latitude_prev, self._longitude_prev = self._latitude, self._longitude
       self._time_prev = self._time_now
       
-      coords_dict     = { 'LAT':self.latitude, 'LON':self.longitude,
-                          'SPEED':self.speed, 'TIME':self.timestamp}
+      coords_dict     = { 'LAT':self.latitude,    'LON':self.longitude,
+                          'SPEED_GPS':self.speed, 'SPEED_CALC':self._speed_calc,
+                          'TIME':self.timestamp}
       
     return coords_dict
     

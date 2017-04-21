@@ -40,8 +40,8 @@ if __name__ == '__main__':
   logger.addHandler(file_handler)
   logger.addHandler(console_handler)
   
-  gps_message_format = "LAT:{LAT}; LON:{LON}; SPEED:{SPEED}; GPS_TIME:{TIME}"
-  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GX}; GYRO_Z:{GZ}; ACCEL_X:{AX}; ACCEL_Y:{AY}; ACCEL_Z:{AZ}; TEMP:{TEMP}"
+  gps_message_format = "LAT:{LAT}; LON:{LON}; SPEED_GPS:{SPEED_GPS}; SPEED_CALC:{SPEED_CALC}; GPS_TIME:{TIME}"
+  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GX}; GYRO_Z:{GZ}; ACCEL_X:{AX}; ACCEL_Y:{AY}; ACCEL_Z:{AZ}"
   gps = GPSreader('/dev/serial0')
   
   start_time = datetime.datetime.now()
