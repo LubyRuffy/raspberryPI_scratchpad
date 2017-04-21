@@ -147,7 +147,7 @@ class GPSreader():
 		cos_theta	  = dot / (self.__r ** 2)
 		theta       = acos(round(cos_theta, 6))
 		distance    = self.__r * theta
-		speed_calc  = (distance / (self._time_now - self._time_prev)) * 3600
+		speed_calc  = (distance / (self._time_now - self._time_prev)) * 3.6
 		return speed_calc
       
           
@@ -166,9 +166,8 @@ class GPSreader():
       
       self._latitude_prev, self._longitude_prev = self._latitude, self._longitude
       
-      coords_dict     = { 'LAT':self.latitude,        'LON':self.longitude,
-                          'SPEED_GPS':self.speed_gps, 'SPEED_CALC':self.speed_calc,
-                          'TIME':self.timestamp}
+      coords_dict = { 'LAT':self.latitude, 'LON':self.longitude, 'SPEED_GPS':self.speed_gps,
+                      'SPEED_CALC':self.speed_calc, 'TIME':self.timestamp}
     return coords_dict
     
   

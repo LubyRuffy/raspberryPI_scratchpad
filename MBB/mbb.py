@@ -8,7 +8,7 @@ from threading  import Thread
 import logging, datetime, os, zipfile
 
 
-LOG_FILE_CADENCE = 2
+LOG_FILE_CADENCE = 5
 
 
 def zip_and_send(filename):
@@ -66,6 +66,7 @@ if __name__ == '__main__':
     
       Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
     
-    
+    mpu = MPU6050()
     gps_message = gps_message_format.format(**coords)
-    logger.info(gps_message) 
+    logger.info(gps_message)
+    logger.info(mpu.readSensors()) 
