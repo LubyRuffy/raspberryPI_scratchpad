@@ -73,4 +73,5 @@ if __name__ == '__main__':
     
     gps_message = gps_message_format.format(**coords)
     mpu_message = mpu_message_format.format(**mpu_data)
-    logger.info(gps_message + "; " + mpu_message)
+    #logger.info(gps_message + "; " + mpu_message)
+    logger.info(mpu_message)
