@@ -167,7 +167,7 @@ class GPSreader():
       self._speed_calc  = self._calc_speed()
       
       self._latitude_prev, self._longitude_prev = self._latitude, self._longitude
-      self._time_prev = self._time_now
+      #self._time_prev = self._time_now
       
       coords_dict     = { 'LAT':self.latitude,        'LON':self.longitude,
                           'SPEED_GPS':self.speed_gps, 'SPEED_CALC':self.speed_calc,
