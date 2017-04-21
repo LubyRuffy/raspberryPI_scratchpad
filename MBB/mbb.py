@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 
-#from mpu_6050   import MPU6050
+from mpu_6050   import MPU6050
 from gps_reader import GPSreader
 from threading  import Thread
 
