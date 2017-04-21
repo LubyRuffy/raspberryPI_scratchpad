@@ -40,7 +40,7 @@ class GPSreader():
     self._time_now        = 0
     self._time_prev       = 0
     
-    self._timestamp   = ""
+    self._timestamp   = "-"
     self._gps_raw     = {}
     
   

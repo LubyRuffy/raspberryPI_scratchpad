@@ -42,11 +42,15 @@ if __name__ == '__main__':
   logger.addHandler(console_handler)
   
   gps_message_format = "LAT:{LAT}; LON:{LON}; SPEED_GPS:{SPEED_GPS}; SPEED_CALC:{SPEED_CALC}; GPS_TIME:{TIME}"
-  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GX}; GYRO_Z:{GZ}; ACCEL_X:{AX}; ACCEL_Y:{AY}; ACCEL_Z:{AZ}"
+  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Z:{GZ}; ACCEL_X:{AX}; ACCEL_Y:{AY}; ACCEL_Z:{AZ}"
   gps = GPSreader('/dev/serial0')
-  
+  mpu = MPU6050()
   start_time = datetime.datetime.now()
-  for coords in gps.coords:  
+  for coords in gps.coords:
+    try:  
+      mpu_data = mpu.readSensors()
+    except:
+      mpu_data = {'GX':0, 'GY':0, 'GZ':0, 'AX':0, 'AY':0, 'AZ':0} 
       
     curr_time = datetime.datetime.now()
     if (curr_time.second == 0 or curr_time.second < start_time.second)\
@@ -67,7 +71,6 @@ if __name__ == '__main__':
     
       Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
     
-    mpu = MPU6050()
     gps_message = gps_message_format.format(**coords)
-    logger.info(gps_message)
-    print(mpu.readSensors()) 
+    mpu_message = mpu_message_format.format(**mpu_data)
+    logger.info(gps_message + "; " + mpu_message)
