@@ -159,7 +159,7 @@ class GPSreader():
     self._split_gps_str(gps_str)
     if self._gps_raw['STATUS'] == 'A':
       
-      self._time_now    = time.time()
+      #self._time_now    = time.time()
       self._latitude    = self._gps2coords(self._gps_raw['LAT'], self._gps_raw['LAT_NS'])
       self._longitude   = self._gps2coords(self._gps_raw['LON'], self._gps_raw['LON_EW'])
       self._speed_gps   = self._gps2speed(self._gps_raw['SPEED'])
@@ -178,10 +178,11 @@ class GPSreader():
   def _coords_gen(self):
     self.gps.flush()
     while True:
+      self._time_now = time.time()
       gps_line = self.gps.readline()
       if "GPRMC" in gps_line:  
         yield self.get_coords(gps_line)
-      
+        self._time_prev = self._time_now
     
 
 if __name__ == '__main__':
