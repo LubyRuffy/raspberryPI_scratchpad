@@ -11,6 +11,6 @@ while True:
   sys.stdout.write(mpu_str.format(mpu_dict['AX'], mpu_dict['AY'], mpu_dict['AZ'],
                                   mpu_dict['GX'], mpu_dict['GY'], mpu_dict['GZ']))
   sys.stdout.flush()
-  time.sleep(0.1)
+  time.sleep(0.5)
   
   
