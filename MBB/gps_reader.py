@@ -147,8 +147,7 @@ class GPSreader():
 		cos_theta	  = dot / (self.__r ** 2)
 		theta       = acos(round(cos_theta, 6))
 		distance    = self.__r * theta
-		speed_calc  = (distance / (self._time_now - self._time_prev)) * 3.6
-		print(self._time_now - self._time_prev)
+		speed_calc  = (distance / (self._time_now - self._time_prev)) * 3600
 		return speed_calc
       
           
@@ -180,7 +179,6 @@ class GPSreader():
       gps_line = self.gps.readline()
       if "GPRMC" in gps_line:  
         yield self.get_coords(gps_line)
-        print(self._time_prev, self._time_now)
         self._time_prev = self._time_now
     
 
