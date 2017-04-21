@@ -30,7 +30,7 @@ class GPSreader():
     else:
       self.get_coords = None
         
-    self._speed           = 0
+    self._speed_gps       = 0
     self._speed_calc      = 0
     self._latitude        = 0
     self._longitude       = 0
@@ -45,10 +45,15 @@ class GPSreader():
     
   
   @property
-  def speed(self):
-    return round(self._speed, 3)
+  def speed_gps(self):
+    return round(self._speed_gps, 3)
+
     
-  
+  @property
+  def speed_calc(self):
+    return round(self._speed_calc, 3)
+    
+      
   @property  
   def latitude(self):
     return round(self._latitude, 7)
@@ -114,8 +119,8 @@ class GPSreader():
   def _gps2speed(self, speed):
     
     try:
-      self._speed = float(speed) * self.__KNOT 
-      return self._speed
+      speed_gps = float(speed) * self.__KNOT 
+      return speed_gps
     except:
       return -1
       
@@ -138,14 +143,11 @@ class GPSreader():
 		x2		= rho2 * cos(lon2)
 		y2		= rho2 * sin(lon2)
 		
-		dot			= x1 * x2 + y1 * y2 + z1 * z2
-		cos_theta	= dot / (self.__r ** 2)
-
-		theta = acos(round(cos_theta, 6))
-
-		distance = self.__r * theta
-		
-		speed_calc	= (distance / (self._time_prev - self._time_now)) * 3.6 
+		dot         = x1 * x2 + y1 * y2 + z1 * z2
+		cos_theta	  = dot / (self.__r ** 2)
+		theta       = acos(round(cos_theta, 6))
+		distance    = self.__r * theta
+		speed_calc  = (distance / (self._time_prev - self._time_now)) * 3.6 
 		
 		return speed_calc
       
@@ -160,15 +162,15 @@ class GPSreader():
       self._time_now    = time.time()
       self._latitude    = self._gps2coords(self._gps_raw['LAT'], self._gps_raw['LAT_NS'])
       self._longitude   = self._gps2coords(self._gps_raw['LON'], self._gps_raw['LON_EW'])
-      self._speed       = self._gps2speed(self._gps_raw['SPEED'])
+      self._speed_gps   = self._gps2speed(self._gps_raw['SPEED'])
       self._timestamp   = self._gps2time(self._gps_raw['HOUR'], self._gps_raw['DATE'])
       self._speed_calc  = self._calc_speed()
       
       self._latitude_prev, self._longitude_prev = self._latitude, self._longitude
       self._time_prev = self._time_now
       
-      coords_dict     = { 'LAT':self.latitude,    'LON':self.longitude,
-                          'SPEED_GPS':self.speed, 'SPEED_CALC':self._speed_calc,
+      coords_dict     = { 'LAT':self.latitude,        'LON':self.longitude,
+                          'SPEED_GPS':self.speed_gps, 'SPEED_CALC':self.speed_calc,
                           'TIME':self.timestamp}
       
     return coords_dict
