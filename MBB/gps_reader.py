@@ -4,7 +4,7 @@ from __future__   import division
 from serial       import Serial
 from math         import cos, acos, sin, pi
 
-import datetime
+import datetime, time
 
 
 # Notes:
