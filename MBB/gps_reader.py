@@ -148,7 +148,7 @@ class GPSreader():
 		theta       = acos(round(cos_theta, 6))
 		distance    = self.__r * theta
 		speed_calc  = (distance / (self._time_now - self._time_prev)) * 3.6
-		
+		print(self._time_now - self._time_prev)
 		return speed_calc
       
           
@@ -183,8 +183,6 @@ class GPSreader():
         yield self.get_coords(gps_line)
       
     
-
-
 
 if __name__ == '__main__':
   
