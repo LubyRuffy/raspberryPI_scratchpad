@@ -8,3 +8,4 @@ mpu = mpu_6050.MPU6050()
 while True:
   sys.stdout.write(str(mpu.readSensors()) + "\r")
   time.sleep(0.1)
+  sys.stdout.flush()
