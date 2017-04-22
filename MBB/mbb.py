@@ -25,24 +25,24 @@ class MPU_gen(Thread):
     
     self.mpu = MPU6050()
     self.mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
+    self.kill = False
     Thread.__init__(self)
   
   def run(self):
-    
     while True:
       mpu_dict = self.mpu.readSensors()
       self.mpu_dict['GX'].append(round(mpu_dict['GX'], 6)) 
       self.mpu_dict['GY'].append(round(mpu_dict['GY'], 6)) 
       self.mpu_dict['GZ'].append(round(mpu_dict['GZ'], 6))
-      time.sleep(0.1)
-      
+      time.sleep(0.09)
+      if self.kill:break
       
   def mpu_gen(self):
     while True:
-      time.sleep(1)
-      yield self.mpu_dict
-      self.mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
-  
+      if len(self.mpu_dict['GX']) >= 10:
+        yield self.mpu_dict
+        self.mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
+      time.sleep(0.1)
 
 
 if __name__ == '__main__':
