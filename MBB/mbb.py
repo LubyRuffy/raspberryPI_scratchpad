@@ -35,7 +35,6 @@ class MPU_gen(Thread):
       self.mpu_dict['GY'].append(round(mpu_dict['GY'], 6)) 
       self.mpu_dict['GZ'].append(round(mpu_dict['GZ'], 6))
       time.sleep(0.1)
-      print("Running ...")
       
       
   def mpu_gen(self):
@@ -84,8 +83,8 @@ if __name__ == '__main__':
 #    pass    
 
   start_time = datetime.datetime.now()
-  mpu.start()
-  for coords in zip(gps.coords):
+  #mpu.start()
+  for coords in gps.coords:
     #mpu_data = mpu.mpu_gen()
 #    try:  
 #      mpu_data = mpu.readSensors()
