@@ -35,6 +35,7 @@ class MPU_gen(Thread):
       self.mpu_dict['GY'].append(round(mpu_dict['GY'], 6)) 
       self.mpu_dict['GZ'].append(round(mpu_dict['GZ'], 6))
       time.sleep(0.1)
+      print("Running ...")
       
       
   def mpu_gen(self):
@@ -77,10 +78,10 @@ if __name__ == '__main__':
   #mpu = MPU6050()
   mpu = MPU_gen()
 
-  try:
-    mpu.readOffsets('mpu.conf')
-  except:
-    pass    
+#  try:
+#    mpu.readOffsets('mpu.conf')
+#  except:
+#    pass    
 
   start_time = datetime.datetime.now()
   mpu.start()
