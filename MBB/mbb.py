@@ -5,7 +5,7 @@ from mpu_6050   import MPU6050
 from gps_reader import GPSreader
 from threading  import Thread
 
-import logging, datetime, os, zipfile
+import logging, datetime, os, zipfile, time
 
 
 LOG_FILE_CADENCE = 5
@@ -53,7 +53,9 @@ if __name__ == '__main__':
     pass
     
   start_time = datetime.datetime.now()
-  for coords in gps.coords:
+  #for coords in gps.coords:
+  while True:
+    time.sleep(1)
     try:  
       mpu_data = mpu.readSensors()
     except:
