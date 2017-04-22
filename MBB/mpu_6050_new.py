@@ -280,7 +280,7 @@ class MPU6050 :
 		# Reset all registers
 		#---------------------------------------------------------------------------
 		logger.debug('Reset all registers')
-		self.i2c.write8(self.__MPU6050_RA_PWR_MGMT_1, 0x80)
+		self.i2c.write8(self.__MPU6050_RA_PWR_MGMT_1, 0x02)
 		time.sleep(5)
 	
 		#---------------------------------------------------------------------------
@@ -295,7 +295,7 @@ class MPU6050 :
 		# Sets clock source to gyro reference w/ PLL
 		#---------------------------------------------------------------------------
 		logger.debug('Clock gyro PLL')
-		self.i2c.write8(self.__MPU6050_RA_CONFIG, 0x02)
+		self.i2c.write8(self.__MPU6050_RA_CONFIG, 0x80)
 		time.sleep(0.005)
 	
 		#---------------------------------------------------------------------------
