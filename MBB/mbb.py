@@ -33,9 +33,9 @@ class MPU_thread(Thread):
   def mpu_data(self):
     data = self._mpu_dict
     self._mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
-    return {'GX':(min(data['GX']), max(data['GX']), (sum(data['GX']) / len(data['GX']))),
-            'GY':(min(data['GY']), max(data['GY']), (sum(data['GY']) / len(data['GY']))),
-            'GZ':(min(data['GZ']), max(data['GZ']), (sum(data['GZ']) / len(data['GZ'])))}  
+    return {'GX':(min(data['GX']), max(data['GX']), round(sum(data['GX']) / len(data['GX']), 6)),
+            'GY':(min(data['GY']), max(data['GY']), round(sum(data['GY']) / len(data['GY']), 6)),
+            'GZ':(min(data['GZ']), max(data['GZ']), round(sum(data['GZ']) / len(data['GZ']), 6))}  
   
   
   def run(self):
@@ -106,8 +106,8 @@ def main():
       mpu_message = mpu_message_format.format(**mpu_data)
       logger.info(gps_message + "; " + mpu_message)
   except:
-    mku.kill = True
-
+    mpu.kill = True
+    time.sleep(1)
 
 if __name__ == '__main__':
   main()
