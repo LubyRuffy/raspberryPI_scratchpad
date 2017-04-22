@@ -96,7 +96,7 @@ def main():
         start_time = datetime.datetime.now()
         ### End of log rotation section 
       
-        Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
+        #Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
       
       gps_message = gps_message_format.format(**coords)
       mpu_message = mpu_message_format.format(**mpu_data)
