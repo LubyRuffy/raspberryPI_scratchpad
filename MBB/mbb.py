@@ -26,7 +26,7 @@ if __name__ == '__main__':
   logger.setLevel(logging.INFO)
   
   #log_path      = "{0}/bbb_logs".format(os.path.expanduser('~'))
-  log_path      = "/var/logs/mbb_logs"
+  log_path      = "/var/log/mbb_logs"
   if not os.path.exists(log_path):
       os.mkdir(log_path)
           
