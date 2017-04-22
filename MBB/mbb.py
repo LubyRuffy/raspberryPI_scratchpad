@@ -47,6 +47,11 @@ if __name__ == '__main__':
 
   gps = GPSreader('/dev/serial0')
   mpu = MPU6050()
+  try:
+    mpu.readOffsets('mpu.conf')
+  except:
+    pass
+    
   start_time = datetime.datetime.now()
   for coords in gps.coords:
     try:  
