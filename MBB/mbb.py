@@ -83,4 +83,5 @@ if __name__ == '__main__':
     #gps_message = gps_message_format.format(**coords)
     mpu_message = mpu_message_format.format(**mpu_data)
     #logger.info(gps_message + "; " + mpu_message)
-    logger.info(mpu_message)
+    #logger.info(mpu_message)
+    logger.info(str(mpu.getEulerAngles(mpu_data['GX'], mpu_data['GY'], mpu_data['GZ'])))
