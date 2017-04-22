@@ -80,6 +80,7 @@ def main():
 
       mpu_data = mpu.mpu_data      
       curr_time = datetime.datetime.now()
+      
 #      if (curr_time.second == 0 or curr_time.second < start_time.second)\
 #          and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
 #        
