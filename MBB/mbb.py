@@ -10,25 +10,17 @@ import logging, datetime, os, zipfile, time
 
 LOG_FILE_CADENCE = 5
 
-
-def zip_and_send(filename):
-  print(filename) 
-  zf = zipfile.ZipFile(filename + ".zip", mode = 'w') 
-  zf.write(filename)
-  zf.close()
-  return 0
   
   
 class MPU_thread(Thread):
   
   def __init__(self):
-    
     self.mpu = MPU6050()
     self._mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
     self.kill = False
     Thread.__init__(self)
     
-  
+    
   @property
   def mpu_data(self):
     data = self._mpu_dict
@@ -39,16 +31,20 @@ class MPU_thread(Thread):
   
   
   def run(self):
-    while True:
+    while not self.kill:
       mpu_dict = self.mpu.readSensors()
       self._mpu_dict['GX'].append(round(mpu_dict['GX'], 6)) 
       self._mpu_dict['GY'].append(round(mpu_dict['GY'], 6)) 
       self._mpu_dict['GZ'].append(round(mpu_dict['GZ'], 6))
       time.sleep(0.1)
-      if self.kill:break
       
 
-
+def zip_and_send(filename):
+  zf = zipfile.ZipFile(filename + ".zip", mode = 'w') 
+  zf.write(filename)
+  zf.close()
+  return 0
+  
 
 def main():
   logger = logging.getLogger('GPS_main_logger')
@@ -70,7 +66,7 @@ def main():
   console_handler.setFormatter(gps_log_format)
   
   logger.addHandler(file_handler)
-  logger.addHandler(console_handler)
+  #logger.addHandler(console_handler)
   
   gps_message_format = "LAT:{LAT:.6f}; LON:{LON:.6f}; SPEED_GPS:{SPEED_GPS:.3f}; SPEED_CALC:{SPEED_CALC:.3f}; GPS_TIME:{TIME}"
   mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Y:{GZ}"
