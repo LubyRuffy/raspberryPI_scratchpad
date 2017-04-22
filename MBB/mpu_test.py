@@ -4,7 +4,8 @@ import mpu_6050, sys, time
 
 
 mpu = mpu_6050.MPU6050()
-
+mpu.updateOffsets('mpu.conf')
+mpu.readOffsets('mpu.conf')
 while True:
   mpu_dict = mpu.readSensors()
   mpu_str = "AX: {0:<15}, AY: {1:<15}, AZ: {2:<15}, GX: {3:<15}, GY: {4:<15}, GZ: {5:<15} \r"
