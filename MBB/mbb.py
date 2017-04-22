@@ -25,9 +25,12 @@ class MPU_thread(Thread):
   def mpu_data(self):
     data = self._mpu_dict
     self._mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
-    return {'GX':(min(data['GX']), max(data['GX']), round(sum(data['GX']) / len(data['GX']), 6)),
-            'GY':(min(data['GY']), max(data['GY']), round(sum(data['GY']) / len(data['GY']), 6)),
-            'GZ':(min(data['GZ']), max(data['GZ']), round(sum(data['GZ']) / len(data['GZ']), 6))}  
+    try:
+      return {'GX':(min(data['GX']), max(data['GX']), round(sum(data['GX']) / len(data['GX']), 6)),
+              'GY':(min(data['GY']), max(data['GY']), round(sum(data['GY']) / len(data['GY']), 6)),
+              'GZ':(min(data['GZ']), max(data['GZ']), round(sum(data['GZ']) / len(data['GZ']), 6))}  
+    except:
+      return self._mpu_dict
   
   
   def run(self):
@@ -68,7 +71,7 @@ def main():
   logger.addHandler(file_handler)
   logger.addHandler(console_handler)
   
-  gps_message_format = "LAT:{LAT:3.6f}; LON:{LON:3.6f}; SPEED_GPS:{SPEED_GPS:3.3f}; SPEED_CALC:{SPEED_CALC:3.3f}; GPS_TIME:{TIME}"
+  gps_message_format = "LAT:{LAT:.6f}; LON:{LON:.6f}; SPEED_GPS:{SPEED_GPS:.3f}; SPEED_CALC:{SPEED_CALC:.3f}; GPS_TIME:{TIME}"
   mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Y:{GZ}"
 
   gps = GPSreader('/dev/serial0')
