@@ -24,25 +24,27 @@ class MPU_gen(Thread):
   def __init__(self):
     
     self.mpu = MPU6050()
-    self.mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
+    self._mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
     self.kill = False
     Thread.__init__(self)
+    
+  
+  @property
+  def mpu_data(self):
+    data = self_mpu_dict
+    self._mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
+    return {'GX':(min(data['GX'], max(data['GX']),'GY':(min(data['GY'], max(data['GY']), 'GZ':(min(data['GZ'], max(data['GZ'])  
+  
   
   def run(self):
     while True:
       mpu_dict = self.mpu.readSensors()
-      self.mpu_dict['GX'].append(round(mpu_dict['GX'], 6)) 
-      self.mpu_dict['GY'].append(round(mpu_dict['GY'], 6)) 
-      self.mpu_dict['GZ'].append(round(mpu_dict['GZ'], 6))
-      time.sleep(0.09)
+      self._mpu_dict['GX'].append(round(mpu_dict['GX'], 6)) 
+      self._mpu_dict['GY'].append(round(mpu_dict['GY'], 6)) 
+      self._mpu_dict['GZ'].append(round(mpu_dict['GZ'], 6))
+      time.sleep(0.1)
       if self.kill:break
       
-  def mpu_gen(self):
-    while True:
-      if len(self.mpu_dict['GX']) >= 10:
-        yield self.mpu_dict
-        self.mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
-      time.sleep(0.1)
 
 
 if __name__ == '__main__':
@@ -85,9 +87,9 @@ if __name__ == '__main__':
 
   start_time = datetime.datetime.now()
   mpu.start()
-  mpu_gen = mpu.mpu_gen()
+
   for coords in gps.coords:
-    mpu_data = next(mpu_gen)
+    mpu_data = mpu.mpu_data
 #    try:  
 #      mpu_data = mpu.readSensors()
 #    except:
