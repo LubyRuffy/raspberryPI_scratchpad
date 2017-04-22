@@ -19,7 +19,7 @@ def zip_and_send(filename):
   return 0
   
   
-class MPU_gen(Thread):
+class MPU_thread(Thread):
   
   def __init__(self):
     
@@ -33,9 +33,9 @@ class MPU_gen(Thread):
   def mpu_data(self):
     data = self._mpu_dict
     self._mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
-    return {'GX':(min(data['GX']), max(data['GX'])),
-            'GY':(min(data['GY']), max(data['GY'])),
-            'GZ':(min(data['GZ']), max(data['GZ']))}  
+    return {'GX':(min(data['GX']), max(data['GX']), (sum(data['GX']) / len(data['GX']))),
+            'GY':(min(data['GY']), max(data['GY']), (sum(data['GY']) / len(data['GY']))),
+            'GZ':(min(data['GZ']), max(data['GZ']), (sum(data['GZ']) / len(data['GZ'])))}  
   
   
   def run(self):
@@ -49,12 +49,11 @@ class MPU_gen(Thread):
       
 
 
-if __name__ == '__main__':
-  
+
+def main()
   logger = logging.getLogger('GPS_main_logger')
   logger.setLevel(logging.INFO)
   
-  #log_path      = "{0}/bbb_logs".format(os.path.expanduser('~'))
   log_path      = "/var/log/mbb_logs"
   if not os.path.exists(log_path):
       os.mkdir(log_path)
@@ -74,48 +73,41 @@ if __name__ == '__main__':
   logger.addHandler(console_handler)
   
   gps_message_format = "LAT:{LAT:.6f}; LON:{LON:.6f}; SPEED_GPS:{SPEED_GPS:.3f}; SPEED_CALC:{SPEED_CALC:.3f}; GPS_TIME:{TIME}"
-#  mpu_message_format = "GYRO_X:{GX:.6f}; GYRO_Y:{GY:.6f}; GYRO_Y:{GZ:.6f}"
   mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Y:{GZ}"
 
-
   gps = GPSreader('/dev/serial0')
-  #mpu = MPU6050()
-  mpu = MPU_gen()
-
-#  try:
-#    mpu.readOffsets('mpu.conf')
-#  except:
-#    pass    
-
+  mpu = MPU_thread()
   start_time = datetime.datetime.now()
   mpu.start()
+  try:
+    for coords in gps.coords:
 
-  for coords in gps.coords:
-    mpu_data = mpu.mpu_data
-#    try:  
-#      mpu_data = mpu.readSensors()
-#    except:
-#      mpu_data = {'GX':0, 'GY':0, 'GZ':0, 'AX':0, 'AY':0, 'AZ':0} 
+      mpu_data = mpu.mpu_data      
+      curr_time = datetime.datetime.now()
+      if (curr_time.second == 0 or curr_time.second < start_time.second)\
+          and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
+        
+        ### Logs rotation section    
+        old_log_full_path = log_full_path
+        log_file          = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
+        log_full_path     = os.path.join(log_path, log_file) 
+        
+        logger.removeHandler(file_handler)      
+        file_handler  = logging.FileHandler(log_full_path)
+        file_handler.setFormatter(gps_log_format)
+        logger.addHandler(file_handler)
+        
+        start_time = datetime.datetime.now()
+        ### End of log rotation section 
       
-    curr_time = datetime.datetime.now()
-    if (curr_time.second == 0 or curr_time.second < start_time.second)\
-        and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
+        Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
       
-      ### Logs rotation section    
-      old_log_full_path = log_full_path
-      log_file          = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
-      log_full_path     = os.path.join(log_path, log_file) 
-      
-      logger.removeHandler(file_handler)      
-      file_handler  = logging.FileHandler(log_full_path)
-      file_handler.setFormatter(gps_log_format)
-      logger.addHandler(file_handler)
-      
-      start_time = datetime.datetime.now()
-      ### End of log rotation section 
-    
-      Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
-    
-    gps_message = gps_message_format.format(**coords)
-    mpu_message = mpu_message_format.format(**mpu_data)
-    logger.info(gps_message + "; " + mpu_message)
+      gps_message = gps_message_format.format(**coords)
+      mpu_message = mpu_message_format.format(**mpu_data)
+      logger.info(gps_message + "; " + mpu_message)
+  except:
+    mku.kill = True
+
+
+if __name__ == '__main__':
+  main()
