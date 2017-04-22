@@ -33,7 +33,9 @@ class MPU_gen(Thread):
   def mpu_data(self):
     data = self_mpu_dict
     self._mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
-    return {'GX':(min(data['GX'], max(data['GX']),'GY':(min(data['GY'], max(data['GY']), 'GZ':(min(data['GZ'], max(data['GZ'])  
+    return {'GX':(min(data['GX']), max(data['GX'])),
+            'GY':(min(data['GY']), max(data['GY'])),
+            'GZ':(min(data['GZ']), max(data['GZ']))}  
   
   
   def run(self):
