@@ -55,9 +55,7 @@ if __name__ == '__main__':
     pass
     
   start_time = datetime.datetime.now()
-  #for coords in gps.coords:
-  while True:
-    time.sleep(1)
+  for coords in gps.coords:
     try:  
       mpu_data = mpu.readSensors()
     except:
