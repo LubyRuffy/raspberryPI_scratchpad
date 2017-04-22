@@ -83,9 +83,9 @@ if __name__ == '__main__':
 #    pass    
 
   start_time = datetime.datetime.now()
-  #mpu.start()
+  mpu.start()
   for coords in gps.coords:
-    #mpu_data = mpu.mpu_gen()
+    mpu_data = mpu.mpu_gen()
 #    try:  
 #      mpu_data = mpu.readSensors()
 #    except:
@@ -111,5 +111,5 @@ if __name__ == '__main__':
       Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
     
     gps_message = gps_message_format.format(**coords)
-    #mpu_message = mpu_message_format.format(**mpu_data)
-    logger.info(gps_message)# + "; " + mpu_message)
+    mpu_message = mpu_message_format.format(**mpu_data)
+    logger.info(gps_message + "; " + mpu_message)
