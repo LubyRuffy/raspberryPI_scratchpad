@@ -26,8 +26,11 @@ if __name__ == '__main__':
   logger.setLevel(logging.INFO)
   
   #log_path      = "{0}/bbb_logs".format(os.path.expanduser('~'))
-  log_path      = "."
-  log_file      = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
+  log_path      = "/var/logs/mbb_logs"
+  if not os.path.exists(log_path):
+      os.mkdir(log_path)
+          
+  log_file      = "MBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
   log_full_path = os.path.join(log_path, log_file) 
     
   file_handler  = logging.FileHandler(log_full_path)
@@ -42,8 +45,7 @@ if __name__ == '__main__':
   logger.addHandler(console_handler)
   
   gps_message_format = "LAT:{LAT}; LON:{LON}; SPEED_GPS:{SPEED_GPS}; SPEED_CALC:{SPEED_CALC}; GPS_TIME:{TIME}"
-#  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Z:{GZ}; ACCEL_X:{AX}; ACCEL_Y:{AY}; ACCEL_Z:{AZ}"
-  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}"
+  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Y:{GZ}"
 
   #gps = GPSreader('/dev/serial0')
   mpu = MPU6050()
@@ -80,8 +82,6 @@ if __name__ == '__main__':
     
       Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
     
-    #gps_message = gps_message_format.format(**coords)
+    gps_message = gps_message_format.format(**coords)
     mpu_message = mpu_message_format.format(**mpu_data)
-    #logger.info(gps_message + "; " + mpu_message)
-    #logger.info(mpu_message)
-    logger.info(str(mpu.getEulerAngles(mpu_data['GX'], mpu_data['GY'], mpu_data['GZ'])))
+    logger.info(gps_message + "; " + mpu_message)
