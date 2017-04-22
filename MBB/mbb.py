@@ -62,8 +62,8 @@ def main():
   gps_log_format = logging.Formatter('%(asctime)s - %(message)s', '%Y.%m.%d-%H:%M:%S')
   file_handler.setFormatter(gps_log_format)
   
-  console_handler = logging.StreamHandler()
-  console_handler.setFormatter(gps_log_format)
+  #console_handler = logging.StreamHandler()
+  #console_handler.setFormatter(gps_log_format)
   
   logger.addHandler(file_handler)
   #logger.addHandler(console_handler)
@@ -102,6 +102,7 @@ def main():
       gps_message = gps_message_format.format(**coords)
       mpu_message = mpu_message_format.format(**mpu_data)
       logger.info(gps_message + "; " + mpu_message)
+      print(gps_message + "; " + mpu_message)
   except:
     mpu.kill = True
     time.sleep(1)
