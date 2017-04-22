@@ -86,7 +86,7 @@ if __name__ == '__main__':
   mpu.start()
   mpu_gen = mpu.mpu_gen()
   for coords in gps.coords:
-    mpu_data = mpu_gen.__next__()
+    mpu_data = next(mpu_gen)
 #    try:  
 #      mpu_data = mpu.readSensors()
 #    except:
