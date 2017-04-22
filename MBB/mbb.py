@@ -45,7 +45,7 @@ if __name__ == '__main__':
 #  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Z:{GZ}; ACCEL_X:{AX}; ACCEL_Y:{AY}; ACCEL_Z:{AZ}"
   mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}"
 
-  gps = GPSreader('/dev/serial0')
+  #gps = GPSreader('/dev/serial0')
   mpu = MPU6050()
   try:
     mpu.readOffsets('mpu.conf')
