@@ -65,8 +65,8 @@ def main():
   console_handler = logging.StreamHandler()
   console_handler.setFormatter(gps_log_format)
   
-  #logger.addHandler(file_handler)
-  logger.addHandler(console_handler)
+  logger.addHandler(file_handler)
+  #logger.addHandler(console_handler)
   
   gps_message_format = "LAT:{LAT:.6f}; LON:{LON:.6f}; SPEED_GPS:{SPEED_GPS:.3f}; SPEED_CALC:{SPEED_CALC:.3f}; GPS_TIME:{TIME}"
   mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Y:{GZ}"
@@ -80,25 +80,24 @@ def main():
 
       mpu_data = mpu.mpu_data      
       curr_time = datetime.datetime.now()
-      """
-      if (curr_time.second == 0 or curr_time.second < start_time.second)\
-          and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
-        
-        ### Logs rotation section    
-        old_log_full_path = log_full_path
-        log_file          = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
-        log_full_path     = os.path.join(log_path, log_file) 
-        
-        logger.removeHandler(file_handler)      
-        file_handler  = logging.FileHandler(log_full_path)
-        file_handler.setFormatter(gps_log_format)
-        logger.addHandler(file_handler)
-        
-        start_time = datetime.datetime.now()
+#      if (curr_time.second == 0 or curr_time.second < start_time.second)\
+#          and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
+#        
+#        ### Logs rotation section    
+#        old_log_full_path = log_full_path
+#        log_file          = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
+#        log_full_path     = os.path.join(log_path, log_file) 
+#        
+#        logger.removeHandler(file_handler)      
+#          file_handler  = logging.FileHandler(log_full_path)
+#        file_handler.setFormatter(gps_log_format)
+#        logger.addHandler(file_handler)
+#        
+#        start_time = datetime.datetime.now()
         ### End of log rotation section 
       
         #Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
-      """
+      
       gps_message = gps_message_format.format(**coords)
       mpu_message = mpu_message_format.format(**mpu_data)
       logger.info(gps_message + "; " + mpu_message)
