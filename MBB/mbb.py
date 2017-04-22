@@ -50,7 +50,7 @@ class MPU_thread(Thread):
 
 
 
-def main()
+def main():
   logger = logging.getLogger('GPS_main_logger')
   logger.setLevel(logging.INFO)
   
