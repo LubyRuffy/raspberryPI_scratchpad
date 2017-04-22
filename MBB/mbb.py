@@ -30,7 +30,7 @@ class MPU_gen(Thread):
   def run(self):
     
     while True:
-      mpu_dict = sem.mpu.readSensors()
+      mpu_dict = self.mpu.readSensors()
       self.mpu_dict['GX'].append(round(mpu_dict['GX'], 6)) 
       self.mpu_dict['GY'].append(round(mpu_dict['GY'], 6)) 
       self.mpu_dict['GZ'].append(round(mpu_dict['GZ'], 6))
