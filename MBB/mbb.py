@@ -25,7 +25,7 @@ class MPU_gen(Thread):
     
     self.mpu = MPU6050()
     self.mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
-    Thread.__init__()
+    Thread.__init__(self)
   
   def run(self):
     
