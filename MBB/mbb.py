@@ -66,7 +66,7 @@ def main():
   console_handler.setFormatter(gps_log_format)
   
   logger.addHandler(file_handler)
-  #logger.addHandler(console_handler)
+  logger.addHandler(console_handler)
   
   gps_message_format = "LAT:{LAT:.6f}; LON:{LON:.6f}; SPEED_GPS:{SPEED_GPS:.3f}; SPEED_CALC:{SPEED_CALC:.3f}; GPS_TIME:{TIME}"
   mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Y:{GZ}"
@@ -96,7 +96,7 @@ def main():
 #        start_time = datetime.datetime.now()
         ### End of log rotation section 
       
-        #Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
+#Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
       
       gps_message = gps_message_format.format(**coords)
       mpu_message = mpu_message_format.format(**mpu_data)
