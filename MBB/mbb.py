@@ -85,7 +85,7 @@ if __name__ == '__main__':
   start_time = datetime.datetime.now()
   mpu.start()
   for coords in zip(gps.coords):
-    mpu_data = mpu.mpu_gen()
+    #mpu_data = mpu.mpu_gen()
 #    try:  
 #      mpu_data = mpu.readSensors()
 #    except:
