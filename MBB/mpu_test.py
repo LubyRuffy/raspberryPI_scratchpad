@@ -1,6 +1,6 @@
 
 
-import mpu_6050, sys, time 
+import mpu_6050_new, sys, time 
 
 
 mpu = mpu_6050.MPU6050()
