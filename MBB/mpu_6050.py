@@ -280,8 +280,8 @@ class MPU6050 :
 		# Reset all registers
 		#---------------------------------------------------------------------------
 		logger.debug('Reset all registers')
-		self.i2c.write8(self.__MPU6050_RA_CONFIG, 0x80)
-		time.sleep(0.5)
+		self.i2c.write8(self.__MPU6050_RA_PWR_MGMT_1, 0x02)
+		time.sleep(2)
 	
 		#---------------------------------------------------------------------------
 		# ********************************: Experimental :**************************
@@ -295,7 +295,7 @@ class MPU6050 :
 		# Sets clock source to gyro reference w/ PLL
 		#---------------------------------------------------------------------------
 		logger.debug('Clock gyro PLL')
-		self.i2c.write8(self.__MPU6050_RA_PWR_MGMT_1, 0x02)
+		self.i2c.write8(self.__MPU6050_RA_CONFIG, 0x80)
 		time.sleep(0.005)
 	
 		#---------------------------------------------------------------------------
@@ -505,7 +505,7 @@ class MPU6050 :
 		fgy = float(gy * self.__CALIBRATION_ITERATIONS - self.gy_offset) * 1000.0 / float(65536 * self.__CALIBRATION_ITERATIONS)
 		fgz = float(gz * self.__CALIBRATION_ITERATIONS - self.gz_offset) * 1000.0 / float(65536 * self.__CALIBRATION_ITERATIONS)
 		#return fax, fay, faz, fgx, fgy, fgz
-		return {'GX':fay, 'GY':fax, 'GZ':faz, 'AX':fgx, 'AY':fgz, 'AZ':fgy}
+		return {'GX':fay, 'GY':fax, 'GZ':faz, 'AX':fgx, 'AY':fgy, 'AZ':fgz}
       
 	def updateOffsets(self, file_name):
 		ax_offset = 0
