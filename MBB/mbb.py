@@ -19,6 +19,30 @@ def zip_and_send(filename):
   return 0
   
   
+class MPU_gen(Thread):
+  
+  def __init__(self):
+    
+    self.mpu = MPU6050()
+    self.mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
+    Thread.__init__()
+  
+  def run(self):
+    
+    while True:
+      mpu_dict = sem.mpu.readSensors()
+      self.mpu_dict['GX'].append(mpu_dict['GX']) 
+      self.mpu_dict['GY'].append(mpu_dict['GY']) 
+      self.mpu_dict['GZ'].append(mpu_dict['GZ']
+      time.sleep(0.1)
+      
+      
+  def mpu_gen(self):
+    while True:
+      yield self.mpu_dict
+      self.mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
+  
+
 
 if __name__ == '__main__':
   
@@ -45,10 +69,13 @@ if __name__ == '__main__':
   logger.addHandler(console_handler)
   
   gps_message_format = "LAT:{LAT:.6f}; LON:{LON:.6f}; SPEED_GPS:{SPEED_GPS:.3f}; SPEED_CALC:{SPEED_CALC:.3f}; GPS_TIME:{TIME}"
-  mpu_message_format = "GYRO_X:{GX:.6f}; GYRO_Y:{GY:.6f}; GYRO_Y:{GZ:.6f}"
+#  mpu_message_format = "GYRO_X:{GX:.6f}; GYRO_Y:{GY:.6f}; GYRO_Y:{GZ:.6f}"
+  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Y:{GZ}"
+
 
   gps = GPSreader('/dev/serial0')
-  mpu = MPU6050()
+  #mpu = MPU6050()
+  mpu = MPU_gen()
 
   try:
     mpu.readOffsets('mpu.conf')
@@ -56,11 +83,12 @@ if __name__ == '__main__':
     pass    
 
   start_time = datetime.datetime.now()
-  for coords in gps.coords:
-    try:  
-      mpu_data = mpu.readSensors()
-    except:
-      mpu_data = {'GX':0, 'GY':0, 'GZ':0, 'AX':0, 'AY':0, 'AZ':0} 
+  mpu.start()
+  for coords, mpu_data in zip(gps.coords, mpu.mpu_gen):
+#    try:  
+#      mpu_data = mpu.readSensors()
+#    except:
+#      mpu_data = {'GX':0, 'GY':0, 'GZ':0, 'AX':0, 'AY':0, 'AZ':0} 
       
     curr_time = datetime.datetime.now()
     if (curr_time.second == 0 or curr_time.second < start_time.second)\
