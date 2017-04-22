@@ -39,6 +39,7 @@ class MPU_gen(Thread):
       
   def mpu_gen(self):
     while True:
+      time.sleep(1)
       yield self.mpu_dict
       self.mpu_dict = {'GX':[], 'GY':[], 'GZ':[]}
   
