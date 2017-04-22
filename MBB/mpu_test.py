@@ -4,7 +4,6 @@ import mpu_6050, sys, time
 
 
 mpu = mpu_6050.MPU6050()
-mpu.updateOffsets('mpu.conf')
 mpu.readOffsets('mpu.conf')
 while True:
   mpu_dict = mpu.readSensors()

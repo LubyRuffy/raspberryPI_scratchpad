@@ -42,7 +42,9 @@ if __name__ == '__main__':
   logger.addHandler(console_handler)
   
   gps_message_format = "LAT:{LAT}; LON:{LON}; SPEED_GPS:{SPEED_GPS}; SPEED_CALC:{SPEED_CALC}; GPS_TIME:{TIME}"
-  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Z:{GZ}; ACCEL_X:{AX}; ACCEL_Y:{AY}; ACCEL_Z:{AZ}"
+#  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}; GYRO_Z:{GZ}; ACCEL_X:{AX}; ACCEL_Y:{AY}; ACCEL_Z:{AZ}"
+  mpu_message_format = "GYRO_X:{GX}; GYRO_Y:{GY}"
+
   gps = GPSreader('/dev/serial0')
   mpu = MPU6050()
   start_time = datetime.datetime.now()
