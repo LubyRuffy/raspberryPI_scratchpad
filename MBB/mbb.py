@@ -80,6 +80,7 @@ def main():
 
       mpu_data = mpu.mpu_data      
       curr_time = datetime.datetime.now()
+      """
       if (curr_time.second == 0 or curr_time.second < start_time.second)\
           and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:
         
@@ -97,7 +98,7 @@ def main():
         ### End of log rotation section 
       
         #Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
-      
+      """
       gps_message = gps_message_format.format(**coords)
       mpu_message = mpu_message_format.format(**mpu_data)
       logger.info(gps_message + "; " + mpu_message)
