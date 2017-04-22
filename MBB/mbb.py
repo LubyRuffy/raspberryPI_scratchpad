@@ -78,36 +78,32 @@ def main():
   mpu = MPU_thread()
   start_time = datetime.datetime.now()
   mpu.start()
-#  try:
-  for coords in gps.coords:
-
-    mpu_data = mpu.mpu_data      
-    curr_time = datetime.datetime.now()
-    
-    if (curr_time.second == 0 or curr_time.second < start_time.second)\
-        and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:        
+  try:
+    for coords in gps.coords:
+      mpu_data = mpu.mpu_data      
+      curr_time = datetime.datetime.now()
       
-      ### Logs rotation section    
-      old_log_full_path = log_full_path
-      log_file          = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
-      log_full_path     = os.path.join(log_path, log_file) 
+      if (curr_time.second == 0 or curr_time.second < start_time.second)\
+          and abs(curr_time.minute - start_time.minute) % 10 == LOG_FILE_CADENCE:        
+        ### Logs rotation section    
+        old_log_full_path = log_full_path
+        log_file          = "BBB.{0}.log".format(datetime.datetime.now().strftime("%Y%m%d_%H:%M"))
+        log_full_path     = os.path.join(log_path, log_file) 
+        
+        logger.removeHandler(file_handler)      
+        file_handler  = logging.FileHandler(log_full_path)
+        file_handler.setFormatter(gps_log_format)
+        logger.addHandler(file_handler)
+        start_time = datetime.datetime.now()
+        ### End of log rotation section 
+        Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
       
-      logger.removeHandler(file_handler)      
-      file_handler  = logging.FileHandler(log_full_path)
-      file_handler.setFormatter(gps_log_format)
-      logger.addHandler(file_handler)
-      start_time = datetime.datetime.now()
-      ### End of log rotation section 
-    
-      #Thread(target = zip_and_send, args = (old_log_full_path,)).start() 
-    
-    gps_message = gps_message_format.format(**coords)
-    mpu_message = mpu_message_format.format(**mpu_data)
-    logger.info(gps_message + "; " + mpu_message)
-    #print(gps_message + "; " + mpu_message)
-#  except:
-#    mpu.kill = True
-#    time.sleep(1)
+      gps_message = gps_message_format.format(**coords)
+      mpu_message = mpu_message_format.format(**mpu_data)
+      logger.info(gps_message + "; " + mpu_message)
+  except:
+    mpu.kill = True
+    time.sleep(1)
 
 if __name__ == '__main__':
   main()
