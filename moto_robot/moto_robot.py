@@ -72,14 +72,12 @@ if __name__ == "__main__":
     while True:
       #comment
       tilt = gyro.tilt
-      delay = (abs(tilt) / 360) * wheel_speed
+      delay = ((abs(tilt) / 360) * wheel_speed) / 2 
       print delay
       if tilt < 0:
         goLeft(speed, delay)
       elif tilt > 0:
         goRight(speed, delay)
-      #elif tilt == 0:
-      stopMotors(0)
 
   except KeyboardInterrupt:
     print "Stopping motors and MPU6050 ..."
