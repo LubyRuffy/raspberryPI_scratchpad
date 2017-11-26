@@ -32,7 +32,7 @@ class Gyro(Thread):
 def goLeft(mspeed, delay):
   motor1.go_left(mspeed)
   motor2.go_left(mspeed)
-  time.sleep(speed)
+  time.sleep(delay)
 
 def goRight(mspeed, delay):
   motor1.go_right(mspeed)
@@ -59,6 +59,7 @@ if __name__ == "__main__":
     time.sleep(0.2)
   print "MPU6050 ready. Starting robot ..."
 
+<<<<<<< HEAD
   while True:
     tilt = gyro.tilt
     delay = (abs(tilt) / 360) * WHEEL_SPEED
@@ -68,6 +69,18 @@ if __name__ == "__main__":
       goRight(100, delay)
     
     #stopMotors(0)
+=======
+  try:
+    while True:
+      tilt = gyro.tilt
+      delay = (abs(tilt) / 360) * WHEEL_SPEED
+      if tilt > 0:
+        goLeft(100, delay)
+      elif tilt < 0:
+        goRight(100, delay)
+      elif tilt == 0:
+        stopMotors(0.005)
+>>>>>>> 6f495a253529134b8a647558724dbe21f39a7503
         
   print "Stopping motors and MPU6050 ..."
   gyro.keep_running = False
