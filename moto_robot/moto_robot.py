@@ -59,6 +59,17 @@ if __name__ == "__main__":
     time.sleep(0.2)
   print "MPU6050 ready. Starting robot ..."
 
+<<<<<<< HEAD
+  while True:
+    tilt = gyro.tilt
+    delay = (abs(tilt) / 360) * WHEEL_SPEED
+    if tilt > 0:
+      goLeft(100, delay)
+    elif tilt < 0:
+      goRight(100, delay)
+    
+    #stopMotors(0)
+=======
   try:
     while True:
       #comment
@@ -70,15 +81,15 @@ if __name__ == "__main__":
         goRight(100, delay)
       elif tilt == 0:
         stopMotors(0.005)
+>>>>>>> 6f495a253529134b8a647558724dbe21f39a7503
         
-  except:
-    print "Stopping motors and MPU6050 ..."
-    gyro.keep_running = False
-    gyro.join()
-    motor1.stop()
-    motor1.cleanup()
+  print "Stopping motors and MPU6050 ..."
+  gyro.keep_running = False
+  gyro.join()
+  motor1.stop()
+  motor1.cleanup()
 
-    motor2.stop()
-    motor2.cleanup()
-    print "Robot stopped."
+  motor2.stop()
+  motor2.cleanup()
+  print "Robot stopped."
 
