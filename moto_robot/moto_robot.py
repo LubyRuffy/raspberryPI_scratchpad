@@ -72,8 +72,7 @@ if __name__ == "__main__":
     while True:
       #comment
       tilt = gyro.tilt
-      delay = ((abs(tilt) / 360) * wheel_speed) / 2 
-      print delay
+      delay = ((abs(tilt) / 360) * wheel_speed) / 3 
       if tilt < 0:
         goLeft(speed, delay)
       elif tilt > 0:
