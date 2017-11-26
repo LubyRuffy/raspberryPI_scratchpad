@@ -2,6 +2,7 @@
 
 from __future__ import division
 
+import sys
 import time
 
 from threading import Thread
@@ -48,6 +49,8 @@ def stopMotors(delay):
 
 if __name__ == "__main__":
 
+  speed = sys.argv()[1]
+  
   motor1	= Motor(13, 15, 100)
   motor2	= Motor(16, 18, 100)
 
@@ -65,9 +68,9 @@ if __name__ == "__main__":
       tilt = gyro.tilt
       delay = (abs(tilt) / 360) * WHEEL_SPEED
       if tilt < 0:
-        goLeft(100, delay)
+        goLeft(speed, delay)
       elif tilt > 0:
-        goRight(100, delay)
+        goRight(speed, delay)
       elif tilt == 0:
         stopMotors(0.005)
 
