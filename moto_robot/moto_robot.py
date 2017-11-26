@@ -13,7 +13,7 @@ WHEEL_SPEED = 0.3
 
 
 class Gyro(Thread):
-  def __init__(self, delay = 0.005):
+  def __init__(self, delay = 0.01):
     self._tilt = 0
     self.__delay = delay
     self.keep_running = True
@@ -71,12 +71,13 @@ if __name__ == "__main__":
       #comment
       tilt = gyro.tilt
       delay = (abs(tilt) / 360) * WHEEL_SPEED
+      print delay
       if tilt < 0:
         goLeft(speed, delay)
       elif tilt > 0:
         goRight(speed, delay)
-      elif tilt == 0:
-        stopMotors(0.005)
+      #elif tilt == 0:
+      stopMotors(0.01)
 
   except KeyboardInterrupt:
     print "Stopping motors and MPU6050 ..."
