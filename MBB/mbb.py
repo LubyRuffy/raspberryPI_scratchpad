@@ -43,7 +43,7 @@ class MPU_thread(Thread):
       
 
 def zip_and_send(filename):
-  zf = zipfile.ZipFile(filename + ".zip", mode = 'w') 
+  zf = zipfile.ZipFile(filename + ".zip", 'w', zipfile.ZIP_DEFLATED) 
   zf.write(filename)
   zf.close()
   return 0
@@ -62,7 +62,7 @@ def main():
     
   file_handler  = logging.FileHandler(log_full_path)
   
-  gps_log_format = logging.Formatter('%(asctime)s - %(message)s', '%Y.%m.%d-%H:%M:%S')
+  gps_log_format = logging.Formatter('%(asctime)s: %(message)s', '%Y.%m.%d-%H:%M:%S')
   file_handler.setFormatter(gps_log_format)
   
   console_handler = logging.StreamHandler()

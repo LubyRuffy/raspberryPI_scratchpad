@@ -24,7 +24,7 @@ class GPSpeedo():
 		self.start_coords	= coords
 		self.stop_coords	= coords
 		self.speed_ms		= 0
-		self.speed_kmh		= 0
+		self.speed_kmh	= 0
 		self.distance		= 0
 
 	
