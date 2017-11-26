@@ -32,7 +32,7 @@ class Gyro(Thread):
 def goLeft(mspeed, delay):
   motor1.go_left(mspeed)
   motor2.go_left(mspeed)
-  time.sleep(speed)
+  time.sleep(delay)
 
 def goRight(mspeed, delay):
   motor1.go_right(mspeed)
