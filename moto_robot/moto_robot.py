@@ -51,11 +51,12 @@ if __name__ == "__main__":
 
   try:
     speed = sys.argv[1]
-    wheel_speed = (WHEEL_SPEED / speed) * 100
   except Exception:
     print "Motor speed needed."
     sys.exit(-1)
-  
+
+  wheel_speed = (WHEEL_SPEED / speed) * 100
+
   motor1	= Motor(13, 15, 100)
   motor2	= Motor(16, 18, 100)
 
