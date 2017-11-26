@@ -9,25 +9,25 @@ from threading import Thread
 class Gyro(Thread):
   def __init__(self, delay = 0.005):
     self._tilt = 0
+    self.__delay = delay
     self.keep_running = True
-    self.gyro = MPU6050()
-    Thread.__init__()
+    self.__mpu6050 = MPU6050()
+    Thread.__init__(self)
   
   @property
   def tilt(self):
     return self._tilt
     
-  def run():
-    while keep_running:
-      self._tilt	= gyro.readSensors()[1] * 90
-      time.sleep(delay)
+  def run(self):
+    while self.keep_running:
+      self._tilt = self.__mpu6050.readSensors()[1] * 90
+      time.sleep(self.__delay)
 
 
 def goLeft(mspeed, delay):
   motor1.go_left(mspeed)
   motor2.go_left(mspeed)
   time.sleep(speed)
-
 
 def goRight(mspeed, delay):
   motor1.go_right(mspeed)
@@ -50,7 +50,8 @@ if __name__ == "__main__":
 
   print "Initializing MPU6050 ..."
   gyro.start()	
-  while not TILT:time.sleep(DELAY)
+  while not gyro.tilt:
+    time.sleep(0.2)
   print "MPU6050 ready. Starting robot ..."
 
   try:
