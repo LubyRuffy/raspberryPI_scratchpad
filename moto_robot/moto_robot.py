@@ -64,14 +64,14 @@ if __name__ == "__main__":
       #comment
       tilt = gyro.tilt
       delay = (abs(tilt) / 360) * WHEEL_SPEED
-      if tilt > 0:
+      if tilt < 0:
         goLeft(100, delay)
-      elif tilt < 0:
+      elif tilt > 0:
         goRight(100, delay)
       elif tilt == 0:
         stopMotors(0.005)
 
-  except Exception:
+  except KeyboardInterrupt:
     print "Stopping motors and MPU6050 ..."
     gyro.keep_running = False
     gyro.join()
