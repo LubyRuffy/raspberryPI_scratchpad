@@ -5,12 +5,13 @@ from mpu_6050	import MPU6050
 import time
 from threading import Thread
 
-DELAY		= 0.02
-HYST_START	= 8
+DELAY		= 0.005
+HYST_START	= 1
 HYST_STOP	= 5
+SPEED           = 50
 
 TILT	= None
-RUN		= True 
+RUN	= True 
 
 
 def getTilt():
@@ -25,8 +26,8 @@ def goLeft():
 	while RUN:	
 		if TILT < (HYST_START * -1):
 			while TILT < (HYST_STOP * -1) and RUN:
-				motor1.go_left()
-				motor2.go_left()
+				motor1.go_left(SPEED)
+				motor2.go_left(SPEED)
 				time.sleep(DELAY)
 				
 			
@@ -34,8 +35,8 @@ def goRight():
 	while RUN:
 		if TILT > HYST_START:
 			while TILT > HYST_STOP and RUN:
-				motor1.go_right()
-				motor2.go_right()
+				motor1.go_right(SPEED)
+				motor2.go_right(SPEED)
 				time.sleep(DELAY)
 			
 				
@@ -50,13 +51,13 @@ def stopMotors():
 
 if __name__ == "__main__":
 	
-	motor1	= Motor(13, 15)
-	motor2	= Motor(16, 18)
+	motor1	= Motor(13, 15, 100)
+	motor2	= Motor(16, 18, 100)
 	
 	gyro_thread 	= Thread(target = getTilt)
 	go_right_thread	= Thread(target = goRight)
 	go_left_thread	= Thread(target = goLeft)
-	stop_motors		=Thread(target = stopMotors)
+	stop_motors     = Thread(target = stopMotors)
 	
 	print "Initializing MPU6050 ..."
 	gyro_thread.start()	

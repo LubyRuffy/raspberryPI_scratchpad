@@ -54,7 +54,7 @@ class I2C:
 				self.bus.write_byte_data(self.address, reg, value)
 				logger.debug('I2C: Wrote 0x%02X to register 0x%02X', value, reg)
 				break
-			except IOError, err:
+			except IOError as  err:
 				logger.exception('Error %d, %s accessing 0x%02X: Check your I2C address', err.errno, err.strerror, self.address)
 				time.sleep(0.001)
 
@@ -64,7 +64,7 @@ class I2C:
 			try:
 				self.bus.write_i2c_block_data(self.address, reg, list)
 				break
-			except IOError, err:
+			except IOError as  err:
 				logger.exception('Error %d, %s accessing 0x%02X: Check your I2C address', err.errno, err.strerror, self.address)
 				time.sleep(0.001)
 
@@ -75,7 +75,7 @@ class I2C:
 				result = self.bus.read_byte_data(self.address, reg)
 				logger.debug('I2C: Device 0x%02X returned 0x%02X from reg 0x%02X', self.address, result & 0xFF, reg)
 				return result
-			except IOError, err:
+			except IOError as err:
 				logger.exception('Error %d, %s accessing 0x%02X: Check your I2C address', err.errno, err.strerror, self.address)
 				time.sleep(0.001)
 
@@ -89,7 +89,7 @@ class I2C:
 					return result - 256
 				else:
 					return result
-			except IOError, err:
+			except IOError as err:
 				logger.exception('Error %d, %s accessing 0x%02X: Check your I2C address', err.errno, err.strerror, self.address)
 				time.sleep(0.001)
 
@@ -105,7 +105,7 @@ class I2C:
 					time.sleep(0.001)
 				else:
 					return result
-			except IOError, err:
+			except IOError as err:
 				logger.exception('Error %d, %s accessing 0x%02X: Check your I2C address', err.errno, err.strerror, self.address)
 				time.sleep(0.001)
 
@@ -123,7 +123,7 @@ class I2C:
 					time.sleep(0.001)
 				else:
 					return result
-			except IOError, err:
+			except IOError as err:
 				logger.exception('Error %d, %s accessing 0x%02X: Check your I2C address', err.errno, err.strerror, self.address)
 				time.sleep(0.001)
 				
@@ -134,7 +134,7 @@ class I2C:
 				result = self.bus.read_i2c_block_data(self.address, reg, length)
 				logger.debug('I2C: Device 0x%02X from reg 0x%02X', self.address, reg)
 				return result
-			except IOError, err:
+			except IOError as err:
 				logger.exception('Error %d, %s accessing 0x%02X: Check your I2C address', err.errno, err.strerror, self.address)
 				time.sleep(0.001)
 
@@ -547,7 +547,7 @@ class MPU6050 :
 				cfg_file.write('%d\n' % gz_offset)
 				cfg_file.flush()
 
-		except IOError, err:
+		except IOError as err:
 			logger.critical('Could not open offset config file: %s for writing', file_name)
 			cfg_rc = False
 
@@ -575,7 +575,7 @@ class MPU6050 :
 			self.gy_offset = int(str_gy_offset)
 			self.gz_offset = int(str_gz_offset)
 
-		except IOError, err:
+		except IOError as err:
 			logger.critical('Could not open offset config file: %s for reading', file_name)
 			cfg_rc = False
 
