@@ -70,13 +70,14 @@ if __name__ == "__main__":
         goRight(100, delay)
       elif tilt == 0:
         stopMotors(0.005)
-        
-  print "Stopping motors and MPU6050 ..."
-  gyro.keep_running = False
-  gyro.join()
-  motor1.stop()
-  motor1.cleanup()
 
-  motor2.stop()
-  motor2.cleanup()
-  print "Robot stopped."
+  except Exception:
+    print "Stopping motors and MPU6050 ..."
+    gyro.keep_running = False
+    gyro.join()
+    motor1.stop()
+    motor1.cleanup()
+
+    motor2.stop()
+    motor2.cleanup()
+    print "Robot stopped."
