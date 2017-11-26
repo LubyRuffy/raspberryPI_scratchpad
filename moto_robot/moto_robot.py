@@ -50,7 +50,7 @@ def stopMotors(delay):
 if __name__ == "__main__":
 
   try:
-    speed = sys.argv[1]
+    speed = int(sys.argv[1])
   except Exception:
     print "Motor speed needed."
     sys.exit(-1)
