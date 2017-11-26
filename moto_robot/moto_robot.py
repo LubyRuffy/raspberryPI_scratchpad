@@ -64,8 +64,8 @@ if __name__ == "__main__":
       tilt = gyro.tilt
       delay = (abs(tilt) / 360) * WHEEL_SPEED
       if tilt > 0:
-        goRight(100, delay)
-      elif tilt < 0
+        goLeft(100, delay)
+      elif tilt < 0:
         goRight(100, delay)
       elif tilt == 0:
         stopMotors(0.005)
