@@ -51,6 +51,7 @@ if __name__ == "__main__":
 
   try:
     speed = sys.argv[1]
+    wheel_speed = (WHEEL_SPEED / speed) * 100
   except Exception:
     print "Motor speed needed."
     sys.exit(-1)
@@ -70,14 +71,14 @@ if __name__ == "__main__":
     while True:
       #comment
       tilt = gyro.tilt
-      delay = (abs(tilt) / 360) * WHEEL_SPEED
+      delay = (abs(tilt) / 360) * wheel_speed)
       print delay
       if tilt < 0:
         goLeft(speed, delay)
       elif tilt > 0:
         goRight(speed, delay)
       #elif tilt == 0:
-      stopMotors(0.01)
+      stopMotors(0)
 
   except KeyboardInterrupt:
     print "Stopping motors and MPU6050 ..."
